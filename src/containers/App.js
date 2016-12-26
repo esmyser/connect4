@@ -1,6 +1,7 @@
 import React from 'react';
 import Board from './Board';
 import { connect } from 'react-redux';
+import { takeSpot } from '../actions/index';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 

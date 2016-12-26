@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 
 
 let Column = ({ dispatch, rows }) => (
-    <div>
+    <div className="col-xs-2">
     {
         rows.map((player, index) => 
             <Spot 

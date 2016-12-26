@@ -20,7 +20,7 @@ const initialState = (xMax=6, yMax=6, numPlayers=2) => {
     }
 
     return {
-        board: initialBoard(x, y),
+        board: initialBoard(xMax, yMax),
         players: players,
         currentPlayer: 1
     };
@@ -29,7 +29,8 @@ const initialState = (xMax=6, yMax=6, numPlayers=2) => {
 const game = (state=initialState(), action) => {
     switch (action.type) {
         case 'START_GAME':
-            return initialState;
+            console.log("starting game in reducer: ", state);
+            return state;
         case 'TAKE_SPOT':
             let x = action.id;
             let y = Object.keys(state[x]).length;
@@ -50,3 +51,5 @@ const game = (state=initialState(), action) => {
             return state;
     }
 };
+
+export default game;
