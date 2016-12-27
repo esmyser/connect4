@@ -4,10 +4,11 @@ export const startGame = () => {
     };
 };
 
-export const takeSpot = (column, player) => {
+export const takeSpot = (col, player) => {
+    console.log("takeSpot action");
     return {
         type: 'TAKE_SPOT',
-        column: column, 
+        col: col, 
         player: player
     };
 };

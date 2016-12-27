@@ -30,8 +30,8 @@ const render = () => (
 
 store.subscribe(render);
 
-store.dispatch(startGame()).then(() =>
-    console.log("starting game", store.getState())
-)
+store.dispatch(startGame());
+
+console.log("starting game", store.getState())
 
 render();

@@ -10,7 +10,9 @@ let App = ({ dispatch, game }) => (
         <Board 
             className="row"
             board={ game.board } 
-            onColumnClick={ column => dispatch(takeSpot(column, game.currentPlayer)) }
+            onColClick={ col => dispatch(
+                takeSpot(col, game.currentPlayer)
+            ) }
         />
     </div>
 )

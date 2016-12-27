@@ -4,8 +4,11 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 
 
-let Column = ({ dispatch, rows }) => (
-    <div className="col-xs-2">
+let Column = ({ dispatch, rows, onClick }) => (
+    <div 
+        className="col-xs-2"
+        onClick={ onClick }
+    >
     {
         rows.map((player, index) => 
             <Spot 
