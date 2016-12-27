@@ -12,7 +12,7 @@ const initialBoard = (rows, cols) => {
     return board;
 };
 
-const initialState = (rows=6, cols=6, numPlayers=2) => {
+const initialState = (rows=6, cols=6, numPlayers=3) => {
     let players = [];
 
     for (var i=1; i<=numPlayers; i++) {
@@ -36,28 +36,29 @@ const nextOpenRow = (rows) => {
     return "shit...";
 };
 
+const nextPlayer = (players, player) => {
+    return player + 1 > players.length ? 1 : player + 1;
+};
+
 const game = (state=initialState(), action) => {
     switch (action.type) {
         case 'START_GAME':
             return state;
         case 'TAKE_SPOT':
-            console.log("TAKE_SPOT reducer");
-            console.log(action);
-            console.log("state: ", state);
-
             let board = [ ...state.board ];
+            let player = action.player;
             let col = action.col;
             let row = nextOpenRow(board[col]);
 
-            console.log("board[col][row] before: ", board[col][row]);
-            board[col][row] = action.player;
-            console.log("board[col][row] after: ", board[col][row]);
+            board[col][row] = player;
 
-            let copyState = Object.assign({}, state, { board: board });
+            // toggle player
+            player = nextPlayer(state.players, player);
 
-            console.log("new state: ", copyState);
+            // check win
+            // this all needs to be moved out of this one spot... multiple actions
 
-            return copyState;
+            return Object.assign({}, state, { board: board, currentPlayer: player });
         default:
             return state;
     }
