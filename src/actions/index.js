@@ -4,10 +4,9 @@ export const startGame = () => {
     };
 };
 
-export const takeSpot = (col, player) => {
-    console.log("takeSpot action");
+export const playTurn = (col, player) => {
     return {
-        type: 'TAKE_SPOT',
+        type: 'PLAY_TURN',
         col: col, 
         player: player
     };

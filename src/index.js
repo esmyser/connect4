@@ -1,21 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import thunk from 'redux-thunk';
-
-// import { createStore, applyMiddleware } from 'redux';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { startGame } from './actions/index';
 import App from './containers/App';
 import game from './reducers/game';
-
-
-// const middleware = [thunk];
-
-// const store = createStore(
-//     game,
-//     applyMiddleware(...middleware)
-// );
 
 const store = createStore(game);
 
@@ -29,7 +18,6 @@ const render = () => (
 );
 
 store.subscribe(render);
-
 store.dispatch(startGame());
 
 console.log("starting game", store.getState())

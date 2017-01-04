@@ -24,7 +24,8 @@ const initialState = (rows=6, cols=6, numPlayers=3) => {
         players: players,
         cols: cols,
         rows: rows,
-        currentPlayer: 1
+        currentPlayer: 1,
+        winner: null
     };
 };
 
@@ -32,8 +33,15 @@ const nextOpenRow = (rows) => {
     for (var i=0; i<rows.length; i++){
         if (!rows[i]) { return i; }
     }
+};
 
-    return "shit...";
+const noSpots = (row) => {
+    return row !== 0 && !row;
+};
+
+const wonGame = (board, col, row, player) => {
+    // Todo: winning logic
+    return true;
 };
 
 const nextPlayer = (players, player) => {
@@ -44,19 +52,29 @@ const game = (state=initialState(), action) => {
     switch (action.type) {
         case 'START_GAME':
             return state;
-        case 'TAKE_SPOT':
+        case 'PLAY_TURN':
+            console.log("PLAY_TURN", action);
             let board = [ ...state.board ];
             let player = action.player;
             let col = action.col;
             let row = nextOpenRow(board[col]);
 
-            board[col][row] = player;
+            // escape if no more rows (refactor)
+            if (noSpots(row)) { 
+                return state; 
+            }
 
-            // toggle player
-            player = nextPlayer(state.players, player);
+            // take spot
+            board[col][row] = player;
 
             // check win
             // this all needs to be moved out of this one spot... multiple actions
+            if (wonGame(board, col, row, player)) {
+                return Object.assign({}, state, { board: board, winner: player });
+            }
+
+            // toggle player
+            player = nextPlayer(state.players, player);
 
             return Object.assign({}, state, { board: board, currentPlayer: player });
         default:

@@ -9,7 +9,6 @@ let Board = ({ board, onColClick }) => (
     {
         board.map((rows, index) => 
             <Column 
-                // todo: replace class with style based on rows
                 key={ index } 
                 rows={ [...rows].reverse() }
                 onClick={ () => onColClick(index) }
