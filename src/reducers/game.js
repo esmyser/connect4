@@ -60,7 +60,7 @@ const game = (state=initialState(), action) => {
             let row = nextOpenRow(board[col]);
 
             // escape if no more rows (refactor)
-            if (noSpots(row)) { 
+            if (noSpots(row) || state.winner) { 
                 return state; 
             }
 
