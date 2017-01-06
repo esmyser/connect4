@@ -1,10 +1,10 @@
 const initialBoard = (rows, cols) => {
     let board = [];
 
-    for (var row=0; row<rows; row++) {
+    for (let row=0; row<rows; row++) {
         board[row] = [];
 
-        for (var col=0; col<cols; col++) {
+        for (let col=0; col<cols; col++) {
             board[row][col] = 0;
         }   
     }
@@ -15,7 +15,7 @@ const initialBoard = (rows, cols) => {
 const initialState = (rows=6, cols=6, numPlayers=3) => {
     let players = [];
 
-    for (var i=1; i<=numPlayers; i++) {
+    for (let i=1; i<=numPlayers; i++) {
         players.push(i);
     }
 
@@ -30,7 +30,7 @@ const initialState = (rows=6, cols=6, numPlayers=3) => {
 };
 
 const nextOpenRow = (rows) => {   
-    for (var i=0; i<rows.length; i++){
+    for (let i=0; i<rows.length; i++){
         if (!rows[i]) { return i; }
     }
 };
@@ -42,8 +42,10 @@ const noSpots = (row) => {
 const checkHorizontalLeft = (board, col, row, player) => { 
     let found = true;
 
-    for (var i=0; i<4; i++) {
-        if (board[col][row - i] !== player){
+    for (let i=0; i<4; i++) {
+        let spot = board[col][row - i];
+
+        if (!spot || spot !== player){
             found = false;
             break;
         }
@@ -55,8 +57,10 @@ const checkHorizontalLeft = (board, col, row, player) => {
 const checkHorizontalRight = (board, col, row, player) => { 
     let found = true;
 
-    for (var i=0; i<4; i++) {
-        if (board[col][row + i] !== player){
+    for (let i=0; i<4; i++) {
+        let spot = board[col][row + i];
+
+        if (!spot || spot !== player){
             found = false;
             break;
         }
@@ -68,8 +72,10 @@ const checkHorizontalRight = (board, col, row, player) => {
 const checkVerticalLeft = (board, col, row, player) => {
     let found = true;
 
-    for (var i=0; i<4; i++) {
-        if (board[col - i][row] !== player){
+    for (let i=0; i<4; i++) {
+        let spot = board[col - i][row];
+
+        if (!spot && spot !== player){
             found = false;
             break;
         }
@@ -81,8 +87,10 @@ const checkVerticalLeft = (board, col, row, player) => {
 const checkVerticalRight = (board, col, row, player) => {
     let found = true;
 
-    for (var i=0; i<4; i++) {
-        if (board[col + i][row] !== player){
+    for (let i=0; i<4; i++) {
+        let spot = board[col + i][row];
+
+        if (!spot || spot !== player){
             found = false;
             break;
         }
@@ -91,11 +99,13 @@ const checkVerticalRight = (board, col, row, player) => {
     return found;
 };
 
-const checkDiagonalTopDownLeft = (board, col, row, player) => {
+const checkDiagonalLeftDown = (board, col, row, player) => {
     let found = true;
 
-    for (var i=0; i<4; i++) {
-        if (board[col - i][row - i] !== player){
+    for (let i=0; i<4; i++) {
+        let spot = board[col - i][row - i];
+
+        if (!spot || spot !== player){
             found = false;
             break;
         }
@@ -104,11 +114,15 @@ const checkDiagonalTopDownLeft = (board, col, row, player) => {
     return found;
 };
 
-const checkDiagonalTopDownRight = (board, col, row, player) => {
+const checkDiagonalLeftUp = (board, col, row, player) => {
+    if (col < 4) { return false; }
+
     let found = true;
 
-    for (var i=0; i<4; i++) {
-        if (board[col + i][row + i] !== player){
+    for (let i=0; i<4; i++) {
+        let spot = board[col - i][row + i];
+
+        if (!spot || spot !== player){
             found = false;
             break;
         }
@@ -117,11 +131,13 @@ const checkDiagonalTopDownRight = (board, col, row, player) => {
     return found;
 };
 
-const checkDiagonalBottomDownLeft = (board, col, row, player) => {
+const checkDiagonalRightUp = (board, col, row, player) => {
     let found = true;
 
-    for (var i=0; i<4; i++) {
-        if (board[col + i][row - i] !== player){
+    for (let i=0; i<4; i++) {
+        let spot = board[col + i][row + i];
+
+        if (!spot || spot !== player){
             found = false;
             break;
         }
@@ -130,11 +146,13 @@ const checkDiagonalBottomDownLeft = (board, col, row, player) => {
     return found;
 };
 
-const checkDiagonalBottomDownRight = (board, col, row, player) => {
+const checkDiagonalRightDown = (board, col, row, player) => {
     let found = true;
 
-    for (var i=0; i<4; i++) {
-        if (board[col - i][row + i] !== player){
+    for (let i=0; i<4; i++) {
+        let spot = board[col + i][row - i];
+
+        if (!spot || spot !== player){
             found = false;
             break;
         }
@@ -151,25 +169,25 @@ const checkVertical = (board, col, row, player) => {
     return checkVerticalLeft(board, col, row, player) || checkVerticalRight(board, col, row, player);
 };
 
-const checkDiagonalTopDown = (board, col, row, player) => { 
-    return checkDiagonalTopDownLeft(board, col, row, player) || checkDiagonalTopDownRight(board, col, row, player);
+const checkDiagonalLeft = (board, col, row, player) => { 
+    return checkDiagonalLeftUp(board, col, row, player) || checkDiagonalLeftDown(board, col, row, player);
 };
 
-const checkDiagonalBottomUp = (board, col, row, player) => { 
-    return checkDiagonalBottomDownLeft(board, col, row, player) || checkDiagonalBottomDownRight(board, col, row, player);
+const checkDiagonalRight = (board, col, row, player) => { 
+    return checkDiagonalRightUp(board, col, row, player) || checkDiagonalRightDown(board, col, row, player);
 };
 
 const wonGame = (board, col, row, player) => {
-    // Todo: winning logic
-    if (checkHorizontal(board, col, row, player) || 
-        checkVertical(board, col, row, player) || 
-        checkDiagonalTopDown(board, col, row, player) || 
-        checkDiagonalBottomUp(board, col, row, player)
-    ) { 
-        return true;
-    }
+    // var won = false;
 
-    return false;
+    // if (checkHorizontal(board, col, row, player) || checkVertical(board, col, row, player) || 
+    //     checkDiagonalTopDown(board, col, row, player) || checkDiagonalBottomUp(board, col, row, player)
+    // ) { 
+    //     return true;
+    // }
+
+    // return won;
+    return false; 
 };
 
 const nextPlayer = (players, player) => {
@@ -181,13 +199,18 @@ const game = (state=initialState(), action) => {
         case 'START_GAME':
             return state;
         case 'PLAY_TURN':
+            // checkSpots(state, action);
+            // takeSpot(state, action);
+            // checkWin(state, action);
+            // nextPlayer(state, action);
+
             console.log("PLAY_TURN", action);
             let board = [ ...state.board ];
             let player = action.player;
             let col = action.col;
             let row = nextOpenRow(board[col]);
 
-            // escape if no more rows (refactor)
+            // escape if no more rows (refactor) or already won
             if (noSpots(row) || state.winner) { 
                 return state; 
             }

@@ -1,12 +1,9 @@
 import React from 'react';
 import Spot from './Spot';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
-
 
 let Column = ({ dispatch, rows, onClick }) => (
     <div 
-        className="col-xs-2"
+        className="col-xs-2 column"
         onClick={ onClick }
     >
     {

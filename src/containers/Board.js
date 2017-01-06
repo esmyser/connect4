@@ -1,8 +1,5 @@
 import React from 'react';
 import Column from './Column';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
-
 
 let Board = ({ board, onColClick }) => (
     <div>

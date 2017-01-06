@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { playTurn } from '../actions/index';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
+import '../../public/style.css';
 
 let App = ({ dispatch, game }) => (
     <div className="container">
