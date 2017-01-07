@@ -48,20 +48,28 @@ const findAdjacent = (board, col, row, direction, i) => {
 
     switch (direction) {
         case 'up':
+            console.log('spot: ', col, up);
             return board[col][up];
         case 'rightUp':
+            console.log('spot: ', right, up);
             return board[right][up];
         case 'right':
+            console.log('spot: ', right, row);
             return board[right][row];
         case 'rightDown':
+            console.log('spot: ', right, down);
             return board[right][down];  
         case 'down':
+            console.log('spot: ', col, down);
             return board[col][down];
         case 'leftDown':
+            console.log('spot: ', left, down);
             return board[left][down]; 
         case 'left': 
+            console.log('spot: ', left, row);
             return board[left][row];
         case 'leftUp':
+            console.log('spot: ', left, up);
             return board[left][up];
         default:
             return 0;
@@ -69,59 +77,75 @@ const findAdjacent = (board, col, row, direction, i) => {
 };
 
 const checkWin = (board, col, row, player, spotsToWin, direction) => { 
-    let found = true;
+    console.log('checking: ', direction);
+    let won = true;
 
-    for (let i=1; i<=spotsToWin; i++) {
+    for (let i=1; i<spotsToWin; i++) {
         let spot = findAdjacent(board, col, row, direction, i);
 
         if (!spot || spot !== player){
-            found = false;
+            won = false;
             break;
         }
     }
 
-    return found;
+    console.log("won? ", won);
+    return won;
 };
 
-const wonGame = (board, col, row, player, spotsToWin) => {
+const wonGame = (board, spotsToWin, player, col, row, cols, rows) => {
     let won = false;
 
-    while (won === false) { 
-        let left = col > 3;
-        let right = col < board.col - 3;
-        let down = row > 3;
-        let up = row < board.row - 3;
+    while (!won) { 
+        let left = col + 1 >= spotsToWin;
+        let right = col + 1 <= cols - spotsToWin;
+        let down = row + 1 >= spotsToWin;
+        let up = row + 1 <= rows - spotsToWin;
+        console.log('col: ', col);
+        console.log('row: ', row);
+        console.log('up: ', up);
+        console.log('down: ', down);
+        console.log('left: ', left);
+        console.log('right: ', right);
 
         if (left) {
             won = checkWin(board, col, row, player, spotsToWin, 'left');
+            if (won) break;
         }
 
         if (right) {
             won = checkWin(board, col, row, player, spotsToWin, 'right');
+            if (won) break;
         }
 
         if (down) {
             won = checkWin(board, col, row, player, spotsToWin, 'down');
+            if (won) break;
         }
 
         if (up) {
             won = checkWin(board, col, row, player, spotsToWin, 'up');
+            if (won) break;
         }
 
         if (left && down) {
             won = checkWin(board, col, row, player, spotsToWin, 'leftDown');
+            if (won) break;
         }
 
         if (left && up) {
             won = checkWin(board, col, row, player, spotsToWin, 'leftUp');
+            if (won) break;
         }
 
         if (right && down) {
             won = checkWin(board, col, row, player, spotsToWin, 'rightDown');
+            if (won) break;
         }
 
         if (right && up) {
             won = checkWin(board, col, row, player, spotsToWin, 'rightUp');
+            if (won) break;
         }
 
         break;
@@ -146,6 +170,8 @@ const game = (state=initialState(), action) => {
             console.log('PLAY_TURN', action);
 
             let board = [ ...state.board ];
+            let cols = state.cols;
+            let rows = state.rows;
             let spotsToWin = Number(state.spotsToWin);
             let player = action.player;
             let col = action.col;
@@ -161,7 +187,7 @@ const game = (state=initialState(), action) => {
 
             // check win
             // this all needs to be moved out of this one spot... multiple actions
-            if (wonGame(board, col, row, player, spotsToWin)) {
+            if (wonGame(board, spotsToWin, player, col, row, cols, rows)) {
                 return Object.assign({}, state, { board: board, winner: player });
             }
 
