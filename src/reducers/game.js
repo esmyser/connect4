@@ -24,6 +24,7 @@ const initialState = (rows=6, cols=6, numPlayers=3) => {
         players: players,
         cols: cols,
         rows: rows,
+        spotsToWin: 4,
         currentPlayer: 1,
         winner: null
     };
@@ -39,10 +40,10 @@ const noSpots = (row) => {
     return row !== 0 && !row;
 };
 
-const checkHorizontalLeft = (board, col, row, player) => { 
+const checkLeft = (board, col, row, player, spotsToWin) => { 
     let found = true;
 
-    for (let i=0; i<4; i++) {
+    for (let i=0; i<spotsToWin; i++) {
         let spot = board[col][row - i];
 
         if (!spot || spot !== player){
@@ -54,10 +55,10 @@ const checkHorizontalLeft = (board, col, row, player) => {
     return found;
 };
 
-const checkHorizontalRight = (board, col, row, player) => { 
+const checkRight = (board, col, row, player, spotsToWin) => { 
     let found = true;
 
-    for (let i=0; i<4; i++) {
+    for (let i=0; i<spotsToWin; i++) {
         let spot = board[col][row + i];
 
         if (!spot || spot !== player){
@@ -69,10 +70,10 @@ const checkHorizontalRight = (board, col, row, player) => {
     return found;
 };
 
-const checkVerticalLeft = (board, col, row, player) => {
+const checkDown = (board, col, row, player, spotsToWin) => {
     let found = true;
 
-    for (let i=0; i<4; i++) {
+    for (let i=0; i<spotsToWin; i++) {
         let spot = board[col - i][row];
 
         if (!spot && spot !== player){
@@ -84,10 +85,10 @@ const checkVerticalLeft = (board, col, row, player) => {
     return found;
 };
 
-const checkVerticalRight = (board, col, row, player) => {
+const checkUp = (board, col, row, player, spotsToWin) => {
     let found = true;
 
-    for (let i=0; i<4; i++) {
+    for (let i=0; i<spotsToWin; i++) {
         let spot = board[col + i][row];
 
         if (!spot || spot !== player){
@@ -99,10 +100,10 @@ const checkVerticalRight = (board, col, row, player) => {
     return found;
 };
 
-const checkDiagonalLeftDown = (board, col, row, player) => {
+const checkLeftDown = (board, col, row, player, spotsToWin) => {
     let found = true;
 
-    for (let i=0; i<4; i++) {
+    for (let i=0; i<spotsToWin; i++) {
         let spot = board[col - i][row - i];
 
         if (!spot || spot !== player){
@@ -114,12 +115,12 @@ const checkDiagonalLeftDown = (board, col, row, player) => {
     return found;
 };
 
-const checkDiagonalLeftUp = (board, col, row, player) => {
-    if (col < 4) { return false; }
+const checkLeftUp = (board, col, row, player, spotsToWin) => {
+    if (col < spotsToWin) { return false; }
 
     let found = true;
 
-    for (let i=0; i<4; i++) {
+    for (let i=0; i<spotsToWin; i++) {
         let spot = board[col - i][row + i];
 
         if (!spot || spot !== player){
@@ -131,10 +132,10 @@ const checkDiagonalLeftUp = (board, col, row, player) => {
     return found;
 };
 
-const checkDiagonalRightUp = (board, col, row, player) => {
+const checkRightUp = (board, col, row, player, spotsToWin) => {
     let found = true;
 
-    for (let i=0; i<4; i++) {
+    for (let i=0; i<spotsToWin; i++) {
         let spot = board[col + i][row + i];
 
         if (!spot || spot !== player){
@@ -146,10 +147,10 @@ const checkDiagonalRightUp = (board, col, row, player) => {
     return found;
 };
 
-const checkDiagonalRightDown = (board, col, row, player) => {
+const checkRightDown = (board, col, row, player, spotsToWin) => {
     let found = true;
 
-    for (let i=0; i<4; i++) {
+    for (let i=0; i<spotsToWin; i++) {
         let spot = board[col + i][row - i];
 
         if (!spot || spot !== player){
@@ -161,33 +162,49 @@ const checkDiagonalRightDown = (board, col, row, player) => {
     return found;
 };
 
-const checkHorizontal = (board, col, row, player) => { 
-    return checkHorizontalLeft(board, col, row, player) || checkHorizontalRight(board, col, row, player);
-};
+const wonGame = (board, col, row, player, spotsToWin) => {
+    let won = false;
 
-const checkVertical = (board, col, row, player) => { 
-    return checkVerticalLeft(board, col, row, player) || checkVerticalRight(board, col, row, player);
-};
+    while (won === false) { 
+        let left = col > 3;
+        let right = col < board.col - 3;
+        let down = row > 3;
+        let up = row < board.row - 3;
 
-const checkDiagonalLeft = (board, col, row, player) => { 
-    return checkDiagonalLeftUp(board, col, row, player) || checkDiagonalLeftDown(board, col, row, player);
-};
+        if (left) {
+            won = checkLeft(board, col, row, player, spotsToWin);
+        }
 
-const checkDiagonalRight = (board, col, row, player) => { 
-    return checkDiagonalRightUp(board, col, row, player) || checkDiagonalRightDown(board, col, row, player);
-};
+        if (right) {
+            won = checkRight(board, col, row, player, spotsToWin);
+        }
 
-const wonGame = (board, col, row, player) => {
-    // var won = false;
+        if (down) {
+            won = checkDown(board, col, row, player, spotsToWin);
+        }
 
-    // if (checkHorizontal(board, col, row, player) || checkVertical(board, col, row, player) || 
-    //     checkDiagonalTopDown(board, col, row, player) || checkDiagonalBottomUp(board, col, row, player)
-    // ) { 
-    //     return true;
-    // }
+        if (up) {
+            won = checkUp(board, col, row, player, spotsToWin);
+        }
 
-    // return won;
-    return false; 
+        if (left && down) {
+            won = checkLeftDown(board, col, row, player, spotsToWin);
+        }
+
+        if (left && up) {
+            won = checkLeftUp(board, col, row, player, spotsToWin);
+        }
+
+        if (right && down) {
+            won = checkRightDown(board, col, row, player, spotsToWin);
+        }
+
+        if (right && up) {
+            won = checkRightUp(board, col, row, player, spotsToWin);
+        }
+    }
+
+    return won;
 };
 
 const nextPlayer = (players, player) => {
@@ -206,6 +223,7 @@ const game = (state=initialState(), action) => {
 
             console.log("PLAY_TURN", action);
             let board = [ ...state.board ];
+            let spotsToWin = action.spotsToWin;
             let player = action.player;
             let col = action.col;
             let row = nextOpenRow(board[col]);
@@ -220,7 +238,7 @@ const game = (state=initialState(), action) => {
 
             // check win
             // this all needs to be moved out of this one spot... multiple actions
-            if (wonGame(board, col, row, player)) {
+            if (wonGame(board, col, row, player, spotsToWin)) {
                 return Object.assign({}, state, { board: board, winner: player });
             }
 
