@@ -40,6 +40,20 @@ const noSpots = (row) => {
     return row !== 0 && !row;
 };
 
+const invalidTurn = (row, state) => {
+    return noSpots(row) || state.winner;
+};
+
+const takeSpot = (row, state, action) => {
+    let player = action.player;
+    let col = action.col;
+    let board = [ ...state.board ];
+
+    board[col][row] = player;
+
+    return Object.assign({}, state, { board: board });
+};
+
 const findAdjacent = (board, col, row, direction, i) => {
     let left = col - i;
     let right = col + i;
@@ -76,8 +90,12 @@ const findAdjacent = (board, col, row, direction, i) => {
     }
 };
 
-const checkWin = (board, col, row, player, spotsToWin, direction) => { 
+const checkWin = (row, state, action, direction) => { 
     console.log('checking: ', direction);
+    let board = [ ...state.board ];
+    let col = Number(action.col);
+    let player = Number(action.player);
+    let spotsToWin = Number(state.spotsToWin);
     let won = true;
 
     for (let i=1; i<spotsToWin; i++) {
@@ -93,110 +111,96 @@ const checkWin = (board, col, row, player, spotsToWin, direction) => {
     return won;
 };
 
-const wonGame = (board, spotsToWin, player, col, row, cols, rows) => {
+const wonGame = (row, state, action) => {
     let won = false;
+    let cols = Number(state.cols);
+    let rows = Number(state.rows);
+    let spotsToWin = Number(state.spotsToWin);
+    let col = action.col;
+    let player = Number(action.player);
 
     while (!won) { 
         let left = col + 1 >= spotsToWin;
         let right = col + 1 <= cols - spotsToWin;
         let down = row + 1 >= spotsToWin;
         let up = row + 1 <= rows - spotsToWin;
-        console.log('col: ', col);
-        console.log('row: ', row);
-        console.log('up: ', up);
-        console.log('down: ', down);
-        console.log('left: ', left);
-        console.log('right: ', right);
 
         if (left) {
-            won = checkWin(board, col, row, player, spotsToWin, 'left');
+            won = checkWin(row, state, action, 'left');
             if (won) break;
         }
 
         if (right) {
-            won = checkWin(board, col, row, player, spotsToWin, 'right');
+            won = checkWin(row, state, action, 'right');
             if (won) break;
         }
 
         if (down) {
-            won = checkWin(board, col, row, player, spotsToWin, 'down');
+            won = checkWin(row, state, action, 'down');
             if (won) break;
         }
 
         if (up) {
-            won = checkWin(board, col, row, player, spotsToWin, 'up');
+            won = checkWin(row, state, action, 'up');
             if (won) break;
         }
 
         if (left && down) {
-            won = checkWin(board, col, row, player, spotsToWin, 'leftDown');
+            won = checkWin(row, state, action, 'leftDown');
             if (won) break;
         }
 
         if (left && up) {
-            won = checkWin(board, col, row, player, spotsToWin, 'leftUp');
+            won = checkWin(row, state, action, 'leftUp');
             if (won) break;
         }
 
         if (right && down) {
-            won = checkWin(board, col, row, player, spotsToWin, 'rightDown');
+            won = checkWin(row, state, action, 'rightDown');
             if (won) break;
         }
 
         if (right && up) {
-            won = checkWin(board, col, row, player, spotsToWin, 'rightUp');
+            won = checkWin(row, state, action, 'rightUp');
             if (won) break;
         }
 
         break;
     }
 
-    return won;
+    return won ? Object.assign({}, state, { winner: player }) : state;
 };
 
-const nextPlayer = (players, player) => {
+const findNextPlayer = (players, player) => {
     return player + 1 > players.length ? 1 : player + 1;
+};
+
+const nextPlayer = (state, action) => {
+    let player = findNextPlayer(state.players, action.player);
+    return Object.assign({}, state, { player: player });
 };
 
 const game = (state=initialState(), action) => {
     switch (action.type) {
         case 'START_GAME':
-            return state;
+            return Object.assign({}, state);
         case 'PLAY_TURN':
-            // checkSpots(state, action);
-            // takeSpot(state, action);
-            // checkWin(state, action);
-            // nextPlayer(state, action);
             console.log('PLAY_TURN', action);
 
-            let board = [ ...state.board ];
-            let cols = state.cols;
-            let rows = state.rows;
-            let spotsToWin = Number(state.spotsToWin);
-            let player = action.player;
-            let col = action.col;
-            let row = nextOpenRow(board[col]);
+            let newState = Object.assign({}, state);
+            let row = nextOpenRow(newState.rows);
 
-            // escape if no more rows (refactor) or already won
-            if (noSpots(row) || state.winner) { 
-                return state; 
+            if (invalidTurn(row, newState)) { 
+                return newState; 
             }
 
-            // take spot
-            board[col][row] = player;
+            newState = takeSpot(row, newState, action);
+            newState = wonGame(row, newState, action);
+            newState = nextPlayer(newState, action);
 
-            // check win
-            // this all needs to be moved out of this one spot... multiple actions
-            if (wonGame(board, spotsToWin, player, col, row, cols, rows)) {
-                return Object.assign({}, state, { board: board, winner: player });
-            }
-
-            // toggle player
-            player = nextPlayer(state.players, player);
-
-            return Object.assign({}, state, { board: board, currentPlayer: player });
+            return newState;
         default:
-            return state;
+            return Object.assign({}, state);
     }
 };
 
