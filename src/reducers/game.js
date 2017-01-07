@@ -40,118 +40,39 @@ const noSpots = (row) => {
     return row !== 0 && !row;
 };
 
-const checkLeft = (board, col, row, player, spotsToWin) => { 
-    let found = true;
+const findAdjacent = (board, col, row, direction, i) => {
+    let left = col - i;
+    let right = col + i;
+    let up = row + i;
+    let down = row - i;
 
-    for (let i=0; i<spotsToWin; i++) {
-        let spot = board[col][row - i];
-
-        if (!spot || spot !== player){
-            found = false;
-            break;
-        }
+    switch (direction) {
+        case 'up':
+            return board[col][up];
+        case 'rightUp':
+            return board[right][up];
+        case 'right':
+            return board[right][row];
+        case 'rightDown':
+            return board[right][down];  
+        case 'down':
+            return board[col][down];
+        case 'leftDown':
+            return board[left][down]; 
+        case 'left': 
+            return board[left][row];
+        case 'leftUp':
+            return board[left][up];
+        default:
+            return 0;
     }
-
-    return found;
 };
 
-const checkRight = (board, col, row, player, spotsToWin) => { 
+const checkWin = (board, col, row, player, spotsToWin, direction) => { 
     let found = true;
 
-    for (let i=0; i<spotsToWin; i++) {
-        let spot = board[col][row + i];
-
-        if (!spot || spot !== player){
-            found = false;
-            break;
-        }
-    }
-
-    return found;
-};
-
-const checkDown = (board, col, row, player, spotsToWin) => {
-    let found = true;
-
-    for (let i=0; i<spotsToWin; i++) {
-        let spot = board[col - i][row];
-
-        if (!spot && spot !== player){
-            found = false;
-            break;
-        }
-    }
-
-    return found;
-};
-
-const checkUp = (board, col, row, player, spotsToWin) => {
-    let found = true;
-
-    for (let i=0; i<spotsToWin; i++) {
-        let spot = board[col + i][row];
-
-        if (!spot || spot !== player){
-            found = false;
-            break;
-        }
-    }
-
-    return found;
-};
-
-const checkLeftDown = (board, col, row, player, spotsToWin) => {
-    let found = true;
-
-    for (let i=0; i<spotsToWin; i++) {
-        let spot = board[col - i][row - i];
-
-        if (!spot || spot !== player){
-            found = false;
-            break;
-        }
-    }
-
-    return found;
-};
-
-const checkLeftUp = (board, col, row, player, spotsToWin) => {
-    if (col < spotsToWin) { return false; }
-
-    let found = true;
-
-    for (let i=0; i<spotsToWin; i++) {
-        let spot = board[col - i][row + i];
-
-        if (!spot || spot !== player){
-            found = false;
-            break;
-        }
-    }
-
-    return found;
-};
-
-const checkRightUp = (board, col, row, player, spotsToWin) => {
-    let found = true;
-
-    for (let i=0; i<spotsToWin; i++) {
-        let spot = board[col + i][row + i];
-
-        if (!spot || spot !== player){
-            found = false;
-            break;
-        }
-    }
-
-    return found;
-};
-
-const checkRightDown = (board, col, row, player, spotsToWin) => {
-    let found = true;
-
-    for (let i=0; i<spotsToWin; i++) {
-        let spot = board[col + i][row - i];
+    for (let i=1; i<=spotsToWin; i++) {
+        let spot = findAdjacent(board, col, row, direction, i);
 
         if (!spot || spot !== player){
             found = false;
@@ -172,36 +93,38 @@ const wonGame = (board, col, row, player, spotsToWin) => {
         let up = row < board.row - 3;
 
         if (left) {
-            won = checkLeft(board, col, row, player, spotsToWin);
+            won = checkWin(board, col, row, player, spotsToWin, 'left');
         }
 
         if (right) {
-            won = checkRight(board, col, row, player, spotsToWin);
+            won = checkWin(board, col, row, player, spotsToWin, 'right');
         }
 
         if (down) {
-            won = checkDown(board, col, row, player, spotsToWin);
+            won = checkWin(board, col, row, player, spotsToWin, 'down');
         }
 
         if (up) {
-            won = checkUp(board, col, row, player, spotsToWin);
+            won = checkWin(board, col, row, player, spotsToWin, 'up');
         }
 
         if (left && down) {
-            won = checkLeftDown(board, col, row, player, spotsToWin);
+            won = checkWin(board, col, row, player, spotsToWin, 'leftDown');
         }
 
         if (left && up) {
-            won = checkLeftUp(board, col, row, player, spotsToWin);
+            won = checkWin(board, col, row, player, spotsToWin, 'leftUp');
         }
 
         if (right && down) {
-            won = checkRightDown(board, col, row, player, spotsToWin);
+            won = checkWin(board, col, row, player, spotsToWin, 'rightDown');
         }
 
         if (right && up) {
-            won = checkRightUp(board, col, row, player, spotsToWin);
+            won = checkWin(board, col, row, player, spotsToWin, 'rightUp');
         }
+
+        break;
     }
 
     return won;
@@ -220,10 +143,10 @@ const game = (state=initialState(), action) => {
             // takeSpot(state, action);
             // checkWin(state, action);
             // nextPlayer(state, action);
+            console.log('PLAY_TURN', action);
 
-            console.log("PLAY_TURN", action);
             let board = [ ...state.board ];
-            let spotsToWin = action.spotsToWin;
+            let spotsToWin = Number(state.spotsToWin);
             let player = action.player;
             let col = action.col;
             let row = nextOpenRow(board[col]);
