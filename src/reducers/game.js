@@ -1,3 +1,7 @@
+const SPOTS_TO_WIN = 4;
+// Makes it easier to reference back to constants/magic numbers if they're up top
+// or collected in one spot if you have several.
+
 const initialBoard = (rows, cols) => {
     let board = [];
 
@@ -24,7 +28,7 @@ const initialState = (rows=6, cols=6, numPlayers=3) => {
         players: players,
         cols: cols,
         rows: rows,
-        spotsToWin: 4,
+        spotsToWin: SPOTS_TO_WIN,
         currentPlayer: 1,
         winner: null
     };
@@ -93,62 +97,47 @@ const checkWin = (board, col, row, player, spotsToWin, direction) => {
     return won;
 };
 
+// Not a good name since curry implies that it takes one argument at a time
+// but something like this might make wonGame clearer in what is different for
+// each win case
+// Also, didn't actually test any of this code to make sure it work ;)
+const curriedCheckWin = (board, col, row, player, spotsToWin) => {
+    return direction => checkWin(board, col, row, player, spotsToWin, direction);
+};
+
+// Utility function.  This should prob go somewhere else.
+// acutally, mayby use lodash's _.capitalize
+capitalize = (s) => {
+    return s && s[0].toUpperCase() + s.slice(1);
+};
+
+
+// refactored this to be a bit more imperative.  Also not tested or run ;P
+// but might give you an idea.
 const wonGame = (board, spotsToWin, player, col, row, cols, rows) => {
     let won = false;
+    const winChecker = curriedCheckWin(board, col, row, player, spotsToWin);
 
-    while (!won) { 
-        let left = col + 1 >= spotsToWin;
-        let right = col + 1 <= cols - spotsToWin;
-        let down = row + 1 >= spotsToWin;
-        let up = row + 1 <= rows - spotsToWin;
-        console.log('col: ', col);
-        console.log('row: ', row);
-        console.log('up: ', up);
-        console.log('down: ', down);
-        console.log('left: ', left);
-        console.log('right: ', right);
+    const directions = {x: [], y: [], mixed: []};
 
-        if (left) {
-            won = checkWin(board, col, row, player, spotsToWin, 'left');
-            if (won) break;
+    if (col + 1 >= spotsToWin) directions.x.push('left');
+    if (col + 1 <= cols - spotsToWin) directions.x.push('right');
+    if (row + 1 >= spotsToWin) directions.y.push('down');
+    if (row + 1 <= rows - spotsToWin) directions.y.push('up');
+
+    directions.x.forEach(xVal => {
+        directions.y.forEach( yVal => {
+            directions.mixed.push(`${xVal}${capitalize(yVal)}`)
+        })
+    });
+
+    const casesToCheck = Object.values(directions);
+
+    for (i=0; i<casesToCheck.length; i++) {
+        if (winChecker(casesToCheck[i])) {
+            won = true;
+            break;
         }
-
-        if (right) {
-            won = checkWin(board, col, row, player, spotsToWin, 'right');
-            if (won) break;
-        }
-
-        if (down) {
-            won = checkWin(board, col, row, player, spotsToWin, 'down');
-            if (won) break;
-        }
-
-        if (up) {
-            won = checkWin(board, col, row, player, spotsToWin, 'up');
-            if (won) break;
-        }
-
-        if (left && down) {
-            won = checkWin(board, col, row, player, spotsToWin, 'leftDown');
-            if (won) break;
-        }
-
-        if (left && up) {
-            won = checkWin(board, col, row, player, spotsToWin, 'leftUp');
-            if (won) break;
-        }
-
-        if (right && down) {
-            won = checkWin(board, col, row, player, spotsToWin, 'rightDown');
-            if (won) break;
-        }
-
-        if (right && up) {
-            won = checkWin(board, col, row, player, spotsToWin, 'rightUp');
-            if (won) break;
-        }
-
-        break;
     }
 
     return won;
@@ -188,6 +177,8 @@ const game = (state=initialState(), action) => {
             // check win
             // this all needs to be moved out of this one spot... multiple actions
             if (wonGame(board, spotsToWin, player, col, row, cols, rows)) {
+
+                // Spread operator would be good here: return {...state, ...{ board: board, winner: player }}
                 return Object.assign({}, state, { board: board, winner: player });
             }
 
