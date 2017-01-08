@@ -2,8 +2,22 @@
     border: 1px solid black;
     height: 100px;
     width: 100%;
+    text-align: center;
+    padding-top: 40px
 }
 
 .column {
     padding: 0px !important;
+}
+
+.player1 {
+    background: red;
+}
+
+.player2 {
+    background: blue;
+}
+
+.player3 {
+    background: green;
 }
