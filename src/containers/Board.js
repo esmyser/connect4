@@ -2,7 +2,7 @@ import React from 'react';
 import Column from './Column';
 
 let Board = ({ board, onColClick }) => (
-    <div>
+    <div className="board row">
     {
         board.map((rows, index) => 
             <Column 

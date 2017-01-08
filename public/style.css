@@ -10,6 +10,10 @@
     padding: 0px !important;
 }
 
+.board {
+    margin-top: 20px;
+}
+
 .player1 {
     background: red;
 }

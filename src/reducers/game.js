@@ -12,7 +12,7 @@ const initialBoard = (rows, cols) => {
     return board;
 };
 
-const initialState = (rows=6, cols=6, numPlayers=3) => {
+const initialState = (rows=6, cols=6, numPlayers=2) => {
     let players = [];
 
     for (let i=1; i<=numPlayers; i++) {
@@ -31,7 +31,7 @@ const initialState = (rows=6, cols=6, numPlayers=3) => {
 };
 
 const nextOpenRow = (rows) => {   
-    for (let i=0; i<rows.length; i++){
+    for (let i=0; i<rows.length; i++) {
         if (!rows[i]) { return i; }
     }
 };
@@ -40,118 +40,201 @@ const noSpots = (row) => {
     return row !== 0 && !row;
 };
 
-const findAdjacent = (board, col, row, direction, i) => {
-    let left = col - i;
-    let right = col + i;
-    let up = row + i;
-    let down = row - i;
+const checkRow = (state, row) => {
+    let board = state.board;
+    let cols = state.cols;
+    let player = state.currentPlayer;
+    let spotsToWin = state.spotsToWin;
+    let count = 0;
+    let won = false;
 
-    switch (direction) {
-        case 'up':
-            console.log('spot: ', col, up);
-            return board[col][up];
-        case 'rightUp':
-            console.log('spot: ', right, up);
-            return board[right][up];
-        case 'right':
-            console.log('spot: ', right, row);
-            return board[right][row];
-        case 'rightDown':
-            console.log('spot: ', right, down);
-            return board[right][down];  
-        case 'down':
-            console.log('spot: ', col, down);
-            return board[col][down];
-        case 'leftDown':
-            console.log('spot: ', left, down);
-            return board[left][down]; 
-        case 'left': 
-            console.log('spot: ', left, row);
-            return board[left][row];
-        case 'leftUp':
-            console.log('spot: ', left, up);
-            return board[left][up];
-        default:
-            return 0;
-    }
-};
+    for (let i=0; i<cols; i++) {
+        if (board[row][i] === player){
+            count++;
+        } else {
+            count = 0;
+        }
 
-const checkWin = (board, col, row, player, spotsToWin, direction) => { 
-    console.log('checking: ', direction);
-    let won = true;
-
-    for (let i=1; i<spotsToWin; i++) {
-        let spot = findAdjacent(board, col, row, direction, i);
-
-        if (!spot || spot !== player){
-            won = false;
+        if (count === spotsToWin){
+            won = true;
             break;
         }
     }
 
-    console.log("won? ", won);
     return won;
 };
 
-const wonGame = (board, spotsToWin, player, col, row, cols, rows) => {
+const horizontalWin = (state) => {
+    let rows = state.rows;
     let won = false;
 
-    while (!won) { 
-        let left = col + 1 >= spotsToWin;
-        let right = col + 1 <= cols - spotsToWin;
-        let down = row + 1 >= spotsToWin;
-        let up = row + 1 <= rows - spotsToWin;
-        console.log('col: ', col);
-        console.log('row: ', row);
-        console.log('up: ', up);
-        console.log('down: ', down);
-        console.log('left: ', left);
-        console.log('right: ', right);
-
-        if (left) {
-            won = checkWin(board, col, row, player, spotsToWin, 'left');
-            if (won) break;
+    for (let i=0; i<rows; i++) {
+        if (checkRow(state, i)){
+            won = true;
+            break;
         }
-
-        if (right) {
-            won = checkWin(board, col, row, player, spotsToWin, 'right');
-            if (won) break;
-        }
-
-        if (down) {
-            won = checkWin(board, col, row, player, spotsToWin, 'down');
-            if (won) break;
-        }
-
-        if (up) {
-            won = checkWin(board, col, row, player, spotsToWin, 'up');
-            if (won) break;
-        }
-
-        if (left && down) {
-            won = checkWin(board, col, row, player, spotsToWin, 'leftDown');
-            if (won) break;
-        }
-
-        if (left && up) {
-            won = checkWin(board, col, row, player, spotsToWin, 'leftUp');
-            if (won) break;
-        }
-
-        if (right && down) {
-            won = checkWin(board, col, row, player, spotsToWin, 'rightDown');
-            if (won) break;
-        }
-
-        if (right && up) {
-            won = checkWin(board, col, row, player, spotsToWin, 'rightUp');
-            if (won) break;
-        }
-
-        break;
     }
 
     return won;
+};
+
+const checkCol = (state, col) => {
+    let board = state.board;
+    let rows = state.rows;
+    let player = state.currentPlayer;
+    let spotsToWin = state.spotsToWin;
+    let count = 0;
+    let won = false;
+
+    for (let i=0; i<rows; i++) {
+        if (board[i][col] === player){
+            count++;
+        } else {
+            count = 0;
+        }
+
+        if (count === spotsToWin){
+            won = true;
+            break;
+        }
+    }
+
+    return won;  
+};
+
+const verticalWin = (state) => {
+    let cols = state.cols;
+    let won = false;
+
+    for (let i=0; i<cols; i++) {
+        if (checkCol(state, i)){
+            won = true;
+            break;
+        }
+    }
+
+    return won;
+};
+
+const checkTopDown = (state, row, col) => {
+    let board = state.board;
+    let cols = state.cols;
+    let player = state.currentPlayer;
+    let spotsToWin = state.spotsToWin;
+    let count = 0;
+    let won = false;
+
+    console.log("checking top down at ", row, col);
+
+    while (row >= 0 && col < cols) {
+        let spot = board[row][col];
+
+        if (spot === player) {
+            count++;
+        } else {
+            count = 0;
+        }
+
+        console.log(col, row, count);
+
+        if (count === spotsToWin){
+            won = true;
+            break;
+        }
+
+        row -= 1;
+        col += 1;
+    }
+
+    return won;
+};
+
+const diagonalTopDownWin = (state) => {
+    let cols = state.cols;
+    let rows = state.rows;
+    let spotsToWin = state.spotsToWin;
+    let won = false;
+
+    for (let i=spotsToWin - 1; i<rows; i++) {
+        if (checkTopDown(state, i, 0)) {
+            won = true;
+            break;
+        }
+    }
+
+    console.log("done with the first top down set");
+
+    for (let j=1; j<=(cols-spotsToWin); j++) {
+        if (checkTopDown(state, rows-1, j)) {
+            won = true;
+            break;
+        }
+    }
+
+    return won;
+};
+
+const checkBottomUp = (state, row, col) => {
+    let board = state.board;
+    let rows = state.rows;
+    let cols = state.cols;
+    let player = state.currentPlayer;
+    let spotsToWin = state.spotsToWin;
+    let count = 0;
+    let won = false;
+
+    console.log("checking bottom up at ", row, col);
+
+    while (row < rows && col < cols) {
+        let spot = board[row][col];
+
+        if (spot === player) {
+            count++;
+        } else {
+            count = 0;
+        }
+
+        console.log(col, row, count);
+
+        if (count === spotsToWin){
+            won = true;
+            break;
+        }
+
+        row += 1;
+        col += 1;
+    }
+
+    return won;
+};
+
+const diagonalBottomUpWin = (state) => {
+    let cols = state.cols;
+    let rows = state.rows;
+    let spotsToWin = state.spotsToWin;
+    let won = false;
+
+    for (let i=0; i<=(cols-spotsToWin); i++) {
+        if (checkBottomUp(state, 0, i)) {
+            won = true;
+            break;
+        }
+    }
+
+    console.log("done with the first bottom up set");
+
+    for (let j=1; j<=(rows-spotsToWin); j++) {
+        if (checkBottomUp(state, j, 0)) {
+            won = true;
+            break;
+        }
+    }
+
+    return won;
+};
+
+const won = (state) => {
+    return horizontalWin(state) || verticalWin(state) || diagonalTopDownWin(state) || diagonalBottomUpWin(state);
 };
 
 const nextPlayer = (players, player) => {
@@ -163,16 +246,9 @@ const game = (state=initialState(), action) => {
         case 'START_GAME':
             return state;
         case 'PLAY_TURN':
-            // checkSpots(state, action);
-            // takeSpot(state, action);
-            // checkWin(state, action);
-            // nextPlayer(state, action);
             console.log('PLAY_TURN', action);
 
             let board = [ ...state.board ];
-            let cols = state.cols;
-            let rows = state.rows;
-            let spotsToWin = Number(state.spotsToWin);
             let player = action.player;
             let col = action.col;
             let row = nextOpenRow(board[col]);
@@ -185,9 +261,11 @@ const game = (state=initialState(), action) => {
             // take spot
             board[col][row] = player;
 
+            let newState = Object.assign({}, state, { board: board });
+
             // check win
             // this all needs to be moved out of this one spot... multiple actions
-            if (wonGame(board, spotsToWin, player, col, row, cols, rows)) {
+            if (won(newState)) {
                 return Object.assign({}, state, { board: board, winner: player });
             }
 
