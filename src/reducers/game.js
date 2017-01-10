@@ -3,16 +3,18 @@ const initialBoard = (rows, cols) => {
 
     for (let row=0; row<rows; row++) {
         board[row] = [];
-
-        for (let col=0; col<cols; col++) {
-            board[row][col] = 0;
-        }   
     }
+
+    for (let col=0; col<cols; col++) {
+        for (let row=0; row<rows; row++){
+            board[row][col] = 0;
+        }
+    }   
 
     return board;
 };
 
-const initialState = (rows=6, cols=6, numPlayers=2) => {
+const initialState = (rows=6, cols=6, numPlayers=3) => {
     let players = [];
 
     for (let i=1; i<=numPlayers; i++) {
@@ -253,7 +255,7 @@ const game = (state=initialState(), action) => {
             let col = action.col;
             let row = nextOpenRow(board[col]);
 
-            // escape if no more rows (refactor) or already won
+            // escape if no more rows or already won
             if (noSpots(row) || state.winner) { 
                 return state; 
             }
@@ -264,7 +266,6 @@ const game = (state=initialState(), action) => {
             let newState = Object.assign({}, state, { board: board });
 
             // check win
-            // this all needs to be moved out of this one spot... multiple actions
             if (won(newState)) {
                 return Object.assign({}, state, { board: board, winner: player });
             }

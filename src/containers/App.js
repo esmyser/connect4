@@ -13,6 +13,7 @@ let App = ({ dispatch, game }) => (
             winner={ game.winner }
         />
         <Board 
+            cols={ game.cols }
             board={ game.board } 
             onColClick={ col => dispatch(
                 playTurn(col, game.currentPlayer)

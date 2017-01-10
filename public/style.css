@@ -1,17 +1,28 @@
+body {
+    background: black;
+    color: white;
+}
+
 .spot {
     border: 1px solid black;
     height: 100px;
     width: 100%;
     text-align: center;
-    padding-top: 40px
+    padding-top: 40px;
+    margin-bottom: 8px;
 }
 
 .column {
-    padding: 0px !important;
+    padding: 4px;
 }
 
 .board {
-    margin-top: 20px;
+    margin: 0 auto;
+    width: 800px;
+}
+
+.player0 {
+    background: white;
 }
 
 .player1 {
