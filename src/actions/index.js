@@ -17,17 +17,17 @@ export const removePlayer = (index) => {
     };
 };
 
-export const selectBoard = (board) => {
+export const selectBoardKind = (boardKind) => {
     return {
-        type: 'SELECT_BOARD',
-        board: board
+        type: 'SELECT_BOARD_KIND',
+        boardKind: boardKind
     };
 };
 
-export const selectInARow = (inARow) => {
+export const selectWinKind = (winKind) => {
     return {
-        type: 'SELECT_IN_A_ROW',
-        inARow: inARow
+        type: 'SELECT_WIN_KIND',
+        winKind: winKind
     };
 };
 

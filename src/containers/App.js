@@ -2,7 +2,7 @@ import React from 'react';
 import Board from './Board';
 import StartForm from './StartForm';
 import { connect } from 'react-redux';
-import { addPlayer, removePlayer, selectBoard, selectInARow, startGame, playTurn } from '../actions/index';
+import { addPlayer, removePlayer, selectBoardKind, selectWinKind, startGame, playTurn } from '../actions/index';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import '../../public/style.css';
@@ -11,17 +11,20 @@ let App = ({ dispatch, game }) => (
     <div className="container">
         <StartForm
             started={ game.started }
+            boardKinds={ game.boardKinds }
+            winKinds={ game.winKinds }
+            players={ game.players }
             onAddPlayer={ () => dispatch(
                 addPlayer()
             )}
             onRemovePlayer={ index => dispatch(
                 removePlayer(index)
             )}
-            onSelectBoard={ board => dispatch(
-                selectBoard(board)
+            onSelectBoardKind={ boardKind => dispatch(
+                selectBoardKind(boardKind)
             )}
-            onSelectInARow={ inARow => dispatch(
-                selectInARow(inARow)
+            onSelectWinKind={ winKind => dispatch(
+                selectWinKind(winKind)
             )}
             onStartGame={ () => dispatch(
                 startGame()
