@@ -27,9 +27,7 @@ body {
     border: 1px solid black;
     height: 50px;
     width: 50px;
-    text-align: center;
-    padding-top: 40px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .board {
@@ -53,8 +51,8 @@ body {
 }
 
 .drop {
-    height: 46px;
-    width: 46px;
+    height: 50px;
+    width: 50px;
     margin: 0 auto;
     border-radius: 50%;
     background: black;
@@ -70,6 +68,6 @@ body {
 
 .column {
     background: black;
-    padding: 4px;
-    width: 50px;
+    width: 54px;
+    padding: 2px;
 }
