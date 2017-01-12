@@ -1,7 +1,6 @@
 import React from 'react';
 import Board from './Board';
 import Winner from './Winner';
-import Dropper from './Dropper';
 import { connect } from 'react-redux';
 import { playTurn } from '../actions/index';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -13,17 +12,13 @@ let App = ({ dispatch, game }) => (
         <Winner
             winner={ game.winner }
         />
-        <Dropper 
-            cols={ game.cols }
-            board={ game.board }
+        <Board 
+            cols={ parseInt(12 / game.cols) }
+            board={ game.board } 
             player={ game.currentPlayer }
             onColClick={ col => dispatch(
                 playTurn(col, game.currentPlayer)
             )}
-        />
-        <Board 
-            cols={ game.cols }
-            board={ game.board } 
         />
     </div>
 )

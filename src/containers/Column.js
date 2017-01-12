@@ -1,13 +1,19 @@
 import React from 'react';
 import Spot from './Spot';
 
-let Column = ({ dispatch, rows, cols }) => {
-    let className = "col-xs-" + cols + " column";
-    
+let Column = ({ dispatch, cols, rows, player, onClick  }) => {
+    let colClass = "player" + player + " col-xs-" + cols + " column";
+    let dropClass = "col-xs-12 drop";
+
     return (
         <div 
-            className={ className }
+            className={ colClass }
+            onClick={ onClick }
         >
+            <div 
+                className={ dropClass }
+            >
+            </div>
         {
             rows.map((player, index) => 
                 <Spot 
