@@ -19,12 +19,8 @@ const initialState = (cols=12, rows=7, numPlayers=2, spotsToWin=4) => {
         players.push(i);
     }
 
-    // TODO: move winKinds, boardKinds to constants
-
     return {
         started: false,
-        boardKinds: [[6,6], [12,10]],
-        winKinds: [3, 4, 5, 6],
         board: initialBoard(rows, cols),
         players: players,
         cols: cols,
@@ -289,10 +285,6 @@ const game = (state=initialState(), action) => {
     switch (action.type) {
         case 'START_APP':
             return state;
-        case 'ADD_PLAYER':
-        case 'REMOVE_PLAYER':
-        case 'SELECT_BOARD_KIND':
-        case 'SELECT_WIN_KIND':
         case 'START_GAME':
             return startGame(...state, action);
         case 'PLAY_TURN':
