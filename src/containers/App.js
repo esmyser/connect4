@@ -26,9 +26,6 @@ let App = ({ dispatch, game }) => (
             onSelectWinKind={ winKind => dispatch(
                 selectWinKind(winKind)
             )}
-            onStartGame={ () => dispatch(
-                startGame()
-            )}
         />
         <Board 
             started={ game.started }
@@ -44,3 +41,7 @@ let App = ({ dispatch, game }) => (
 App = connect()(App);
 
 export default App;
+
+            // onStartGame={ () => dispatch(
+            //     startGame()
+            // )}

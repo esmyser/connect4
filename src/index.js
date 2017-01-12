@@ -20,6 +20,6 @@ const render = () => (
 store.subscribe(render);
 store.dispatch(startApp());
 
-console.log("starting game", store.getState())
+console.log("starting the game", store.getState())
 
 render();
