@@ -1,7 +1,7 @@
 import React from 'react';
 import Column from './Column';
 
-let Board = ({ cols, board, onColClick }) => (
+let Board = ({ cols, board }) => (
     <div className="board">
     {
         board.map((rows, index) => 
@@ -9,7 +9,6 @@ let Board = ({ cols, board, onColClick }) => (
                 key={ index } 
                 cols={ parseInt(12 / cols) }
                 rows={ [...rows].reverse() }
-                onClick={ () => onColClick(index) }
             />
         )
     }
