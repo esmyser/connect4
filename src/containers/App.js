@@ -16,7 +16,7 @@ let App = ({ dispatch, game }) => (
             )}
         />
         <Board 
-            cols={ parseInt(12 / game.cols) }
+            cols={ game.cols }
             board={ game.board } 
             player={ game.currentPlayer }
             onColClick={ col => dispatch(

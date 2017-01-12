@@ -3,16 +3,25 @@ body {
     color: white;
 }
 
+.board_12 {
+    width: 648px;
+}
+
+.board {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
 .winner {
     position: absolute;
     z-index: 1;
     height: 100%;
     width: 100%;
     text-align: center;
-}
-
-.winner > h1, div {
-    top: 50%;
 }
 
 .winner.player1 {
@@ -28,10 +37,6 @@ body {
     height: 50px;
     width: 50px;
     margin-bottom: 4px;
-}
-
-.board {
-    width: 100%;
 }
 
 .player0 {

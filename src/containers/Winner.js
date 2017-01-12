@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 
 
 let Winner = ({ player, onRestart }) => {
-    let className = "winner player" + { player }.player;
+    let className = 'winner player' + { player }.player;
 
     if (player) {
         return  (
@@ -13,6 +13,7 @@ let Winner = ({ player, onRestart }) => {
             > 
                 <h1>PLAYER { player } WINS!</h1>
                 <button
+                    className='btn btn-default'
                     onClick={ onRestart }
                 >
                     PLAY AGAIN!
