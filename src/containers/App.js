@@ -2,7 +2,7 @@ import React from 'react';
 import Board from './Board';
 import Winner from './Winner';
 import { connect } from 'react-redux';
-import { playTurn } from '../actions/index';
+import { playTurn, startGame } from '../actions/index';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import '../../public/style.css';
@@ -10,7 +10,10 @@ import '../../public/style.css';
 let App = ({ dispatch, game }) => (
     <div>
         <Winner
-            winner={ game.winner }
+            player={ game.winner }
+            onRestart={ () => dispatch(
+                startGame()
+            )}
         />
         <Board 
             cols={ parseInt(12 / game.cols) }

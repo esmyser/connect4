@@ -241,10 +241,10 @@ const nextPlayer = (players, player) => {
     return player + 1 > players.length ? 1 : player + 1;
 };
 
-const game = (state=initialState(), action) => {
+const game = (state, action) => {
     switch (action.type) {
         case 'START_GAME':
-            return state;
+            return initialState();
         case 'PLAY_TURN':
             console.log('PLAY_TURN', action);
 

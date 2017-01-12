@@ -3,10 +3,30 @@ body {
     color: white;
 }
 
+.winner {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.winner > h1, div {
+    top: 50%;
+}
+
+.winner.player1 {
+    background:rgba(218,35,35,0.5);
+}
+
+.winner.player2 {
+    background:rgba(35,125,218,0.5);
+}
+
 .spot {
     border: 1px solid black;
     height: 50px;
-    width: 100%;
+    width: 50px;
     text-align: center;
     padding-top: 40px;
     margin-bottom: 8px;
@@ -14,7 +34,6 @@ body {
 
 .board {
     width: 100%;
-    margin: 0 auto;
 }
 
 .player0 {
@@ -34,8 +53,9 @@ body {
 }
 
 .drop {
-    height: 50px;
-    width: 50px;
+    height: 46px;
+    width: 46px;
+    margin: 0 auto;
     border-radius: 50%;
     background: black;
 }
@@ -51,4 +71,5 @@ body {
 .column {
     background: black;
     padding: 4px;
+    width: 50px;
 }
