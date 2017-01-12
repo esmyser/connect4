@@ -22,9 +22,7 @@ const initialState = (cols=12, rows=7, numPlayers=2, spotsToWin=4) => {
     // TODO: move winKinds, boardKinds to constants
 
     return {
-        started: false,
-        boardKinds: [[6,6], [12,10]],
-        winKinds: [3, 4, 5, 6],
+        started: true,
         board: initialBoard(rows, cols),
         players: players,
         cols: cols,
@@ -275,26 +273,10 @@ const playTurn = (state, action) => {
         return Object.assign({}, state, { board: board, currentPlayer: player });
 };
 
-const startGame = (state, action) => {
-    state.cols = action.cols;
-    state.rows = action.rows;
-    state.numPlayers = action.numPlayers;
-    state.spotsToWin = action.spotsToWin;
-    state.started = true;
-
-    return state;
-};
-
 const game = (state=initialState(), action) => {
     switch (action.type) {
-        case 'START_APP':
-            return state;
-        case 'ADD_PLAYER':
-        case 'REMOVE_PLAYER':
-        case 'SELECT_BOARD_KIND':
-        case 'SELECT_WIN_KIND':
         case 'START_GAME':
-            return startGame(...state, action);
+            return state;
         case 'PLAY_TURN':
             return playTurn(Object.assign({}, ...state), action);
         default:
