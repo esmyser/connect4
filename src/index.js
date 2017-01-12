@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { startApp } from './actions/index';
+import { startGame } from './actions/index';
 import App from './containers/App';
 import game from './reducers/game';
 
@@ -18,7 +18,7 @@ const render = () => (
 );
 
 store.subscribe(render);
-store.dispatch(startApp());
+store.dispatch(startGame());
 
 console.log("starting game", store.getState())
 

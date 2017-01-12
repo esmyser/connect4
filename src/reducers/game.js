@@ -12,7 +12,7 @@ const initialBoard = (rows, cols) => {
     return board;
 };
 
-const initialState = (cols=12, rows=7, numPlayers=2, spotsToWin=4) => {
+const initialState = (cols=3, rows=6, numPlayers=2) => {
     let players = [];
 
     for (let i=1; i<=numPlayers; i++) {
@@ -20,12 +20,11 @@ const initialState = (cols=12, rows=7, numPlayers=2, spotsToWin=4) => {
     }
 
     return {
-        started: false,
         board: initialBoard(rows, cols),
         players: players,
         cols: cols,
         rows: rows,
-        spotsToWin: spotsToWin,
+        spotsToWin: 4,
         currentPlayer: 1,
         winner: null
     };
@@ -242,53 +241,37 @@ const nextPlayer = (players, player) => {
     return player + 1 > players.length ? 1 : player + 1;
 };
 
-const playTurn = (state, action) => {
-        console.log('PLAY_TURN', action);
-
-        let board = state.board;
-        let player = action.player;
-        let col = action.col;
-        let row = nextOpenRow(board[col]);
-
-        // escape if no more rows or already won
-        if (noSpots(row) || state.winner) { 
-            return state; 
-        }
-
-        // take spot
-        board[col][row] = player;
-
-        let newState = Object.assign({}, state, { board: board });
-
-        // check win
-        if (won(newState)) {
-            return Object.assign({}, state, { board: board, winner: player });
-        }
-
-        // toggle player
-        player = nextPlayer(state.players, player);
-
-        return Object.assign({}, state, { board: board, currentPlayer: player });
-};
-
-const startGame = (state, action) => {
-    state.cols = action.cols;
-    state.rows = action.rows;
-    state.numPlayers = action.numPlayers;
-    state.spotsToWin = action.spotsToWin;
-    state.started = true;
-
-    return state;
-};
-
 const game = (state=initialState(), action) => {
     switch (action.type) {
-        case 'START_APP':
-            return state;
         case 'START_GAME':
-            return startGame(...state, action);
+            return state;
         case 'PLAY_TURN':
-            return playTurn(Object.assign({}, ...state), action);
+            console.log('PLAY_TURN', action);
+
+            let board = [ ...state.board ];
+            let player = action.player;
+            let col = action.col;
+            let row = nextOpenRow(board[col]);
+
+            // escape if no more rows or already won
+            if (noSpots(row) || state.winner) { 
+                return state; 
+            }
+
+            // take spot
+            board[col][row] = player;
+
+            let newState = Object.assign({}, state, { board: board });
+
+            // check win
+            if (won(newState)) {
+                return Object.assign({}, state, { board: board, winner: player });
+            }
+
+            // toggle player
+            player = nextPlayer(state.players, player);
+
+            return Object.assign({}, state, { board: board, currentPlayer: player });
         default:
             return state;
     }
