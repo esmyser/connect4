@@ -9,11 +9,11 @@ class Column extends React.Component {
         };
     }
 
-    handleMouseOver () {
+    handleTouchStart () {
         this.setState({ isHovering: true });
     }
   
-    handleMouseOut () {
+    handleTouchEnd () {
         this.setState({ isHovering: false });
     }
   
@@ -23,8 +23,8 @@ class Column extends React.Component {
 
         return (
             <div
-                onMouseOver={ this.handleMouseOver.bind(this) }
-                onMouseOut={ this.handleMouseOut.bind(this) }
+                onTouchStart={ this.handleTouchStart.bind(this) }
+                onTouchEnd={ this.handleTouchEnd.bind(this) }
                 className={ colClass }
                 onClick={ this.props.onClick }
             >
