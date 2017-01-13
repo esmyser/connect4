@@ -92,7 +92,7 @@ body {
 }
 
 .player1, .player1.column:hover > .drop {
-    background: #29ffc2;
+    background: #00ffb6;
 }
 
 .player2, .player2.column:hover > .drop {
