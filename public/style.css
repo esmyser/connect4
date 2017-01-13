@@ -68,6 +68,7 @@ body {
 }
 
 .winner > button {
+    font-size: 18px;
     font-style: italic;
     font-family: cursive;
 }
