@@ -4,39 +4,39 @@ body {
 }
 
 .board_12 {
-    width: 528px;
+    width: 588px;
 }
 
 .board_11 {
-    width: 484px;
+    width: 539px;
 }
 
 .board_10 {
-    width: 440px;
+    width: 490px;
 }
 
 .board_9 {
-    width: 396px;
+    width: 441px;
 }
 
 .board_8 {
-    width: 352px;
+    width: 392px;
 }
 
 .board_7 {
-    width: 308px;
+    width: 343px;
 }
 
 .board_6 {
-    width: 264px;
+    width: 294px;
 }
 
 .board_5 {
-    width: 220px;
+    width: 245px;
 }
 
 .board_4 {
-    width: 176px;
+    width: 196px;
 }
 
 .board {
@@ -95,8 +95,8 @@ body {
 
 .spot {
     border: 1px solid black;
-    height: 40px;
-    width: 40px;
+    height: 45px;
+    width: 45px;
     margin-bottom: 4px;
 }
 
@@ -125,8 +125,8 @@ body {
 }
 
 .drop {
-    height: 40px;
-    width: 40px;
+    height: 45px;
+    width: 45px;
     margin: 0 auto;
     border-radius: 50%;
     background: black;
@@ -148,6 +148,6 @@ body {
 
 .column {
     background: black;
-    width: 44px;
+    width: 49px;
     padding: 2px;
 }

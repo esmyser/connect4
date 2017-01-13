@@ -12,7 +12,7 @@ const initialBoard = (rows, cols) => {
     return board;
 };
 
-const initialState = (cols=8, rows=12, numPlayers=2, spotsToWin=4) => {
+const initialState = (cols=7, rows=9, numPlayers=2, spotsToWin=4) => {
     let players = [];
 
     for (let i=1; i<=numPlayers; i++) {
