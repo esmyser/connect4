@@ -12,7 +12,7 @@ const initialBoard = (rows, cols) => {
     return board;
 };
 
-const initialState = (cols=12, rows=6, numPlayers=2, spotsToWin=4) => {
+const initialState = (cols=11, rows=6, numPlayers=5, spotsToWin=4) => {
     let players = [];
 
     for (let i=1; i<=numPlayers; i++) {
@@ -124,8 +124,6 @@ const checkTopDown = (state, row, col) => {
     let count = 0;
     let won = false;
 
-    console.log("checking top down at ", col, row);
-
     while (row >= 0 && col < cols) {
         let spot = board[col][row];
 
@@ -134,8 +132,6 @@ const checkTopDown = (state, row, col) => {
         } else {
             count = 0;
         }
-
-        console.log(col, row, count);
 
         if (count === spotsToWin){
             won = true;
@@ -162,8 +158,6 @@ const diagonalTopDownWin = (state) => {
         }
     }
 
-    console.log("done with the first top down set");
-
     for (let j=1; j<=(cols-spotsToWin); j++) {
         if (checkTopDown(state, rows-1, j)) {
             won = true;
@@ -183,8 +177,6 @@ const checkBottomUp = (state, row, col) => {
     let count = 0;
     let won = false;
 
-    console.log("checking bottom up at ", row, col);
-
     while (row < rows && col < cols) {
         let spot = board[col][row];
 
@@ -193,8 +185,6 @@ const checkBottomUp = (state, row, col) => {
         } else {
             count = 0;
         }
-
-        console.log(row, col, count);
 
         if (count === spotsToWin){
             won = true;
@@ -220,8 +210,6 @@ const diagonalBottomUpWin = (state) => {
             break;
         }
     }
-
-    console.log("done with the first bottom up set");
 
     for (let j=1; j<=(rows-spotsToWin); j++) {
         if (checkBottomUp(state, j, 0)) {

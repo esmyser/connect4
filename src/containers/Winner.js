@@ -11,12 +11,16 @@ let Winner = ({ player, onRestart }) => {
             <div 
                 className={ className }
             > 
-                <h1>PLAYER { player } WINS!</h1>
+                <div
+                    className="winner_header"
+                >
+                    PLAYER { player } WINS!
+                </div>
                 <button
                     className='btn btn-default'
                     onClick={ onRestart }
                 >
-                    PLAY AGAIN!
+                    PLAY AGAIN
                 </button>
             </div>
         );

@@ -7,6 +7,38 @@ body {
     width: 648px;
 }
 
+.board_11 {
+    width: 594px;
+}
+
+.board_10 {
+    width: 540px;
+}
+
+.board_9 {
+    width: 486px;
+}
+
+.board_8 {
+    width: 432px;
+}
+
+.board_7 {
+    width: 378px;
+}
+
+.board_6 {
+    width: 324px;
+}
+
+.board_5 {
+    width: 270px;
+}
+
+.board_4 {
+    width: 216px;
+}
+
 .board {
     position: absolute;
     margin: auto;
@@ -24,12 +56,28 @@ body {
     text-align: center;
 }
 
+.winner_header {
+    font-size: 120px;
+}
+
 .winner.player1 {
-    background:rgba(218,35,35,0.5);
+    background:rgba(36, 216, 165, 0.75);
 }
 
 .winner.player2 {
-    background:rgba(35,125,218,0.5);
+    background:rgba(239, 7, 0, 0.75);
+}
+
+.winner.player3 {
+    background:rgba(252, 179, 22, 0.75);
+}
+
+.winner.player4 {
+    background:rgba(255, 96, 149, 0.75);
+}
+
+.winner.player5 {
+    background:rgba(101, 0, 224, 0.75);
 }
 
 .spot {
@@ -43,16 +91,24 @@ body {
     background: white;
 }
 
-.player1 {
-    background: red;
+.player1, .player1.column:hover > .drop {
+    background: #29ffc2;
 }
 
-.player2 {
-    background: blue;
+.player2, .player2.column:hover > .drop {
+    background: #ff0700;
 }
 
-.player3 {
-    background: green;
+.player3, .player3.column:hover > .drop {
+    background: #FCB316;
+}
+
+.player4, .player4.column:hover > .drop {
+    background: #ff6095;
+}
+
+.player5, .player5.column:hover > .drop {
+    background: #6500e0;
 }
 
 .drop {
@@ -61,14 +117,6 @@ body {
     margin: 0 auto;
     border-radius: 50%;
     background: black;
-}
-
-.player1.column:hover > .drop {
-    background: red;
-}
-
-.player2.column:hover > .drop {
-    background: blue;
 }
 
 .column {
