@@ -97,7 +97,6 @@ body {
     background: white;
 }
 
-
 .player1, .player1.column:hover > .drop, .player1.column:active > .drop {
     background: #00ffb6;
 }
