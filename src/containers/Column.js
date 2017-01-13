@@ -5,16 +5,17 @@ class Column extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
-          isHovering: false,
+            isHovering: false,
+            isFocusing: false
         };
     }
 
     handleTouchStart () {
-        this.setState({ isHovering: true });
+        this.setState({ isHovering: true, isFocusing: true });
     }
   
     handleTouchEnd () {
-        this.setState({ isHovering: false });
+        this.setState({ isHovering: false, isFocusing: false });
     }
   
     render () {
