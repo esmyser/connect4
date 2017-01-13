@@ -20,7 +20,7 @@ let Winner = ({ player, onRestart }) => {
                     className='btn btn-default'
                     onClick={ onRestart }
                 >
-                    PLAY AGAIN
+                    play again
                 </button>
             </div>
         );
