@@ -4,39 +4,39 @@ body {
 }
 
 .board_12 {
-    width: 648px;
+    width: 588px;
 }
 
 .board_11 {
-    width: 594px;
+    width: 539px;
 }
 
 .board_10 {
-    width: 540px;
+    width: 490px;
 }
 
 .board_9 {
-    width: 486px;
+    width: 441px;
 }
 
 .board_8 {
-    width: 432px;
+    width: 392px;
 }
 
 .board_7 {
-    width: 378px;
+    width: 343px;
 }
 
 .board_6 {
-    width: 324px;
+    width: 294px;
 }
 
 .board_5 {
-    width: 270px;
+    width: 245px;
 }
 
 .board_4 {
-    width: 216px;
+    width: 196px;
 }
 
 .board {
@@ -61,7 +61,14 @@ body {
     font-weight: bold;
 }
 
+@media only screen and (max-width:480px) {
+    .winner_header {
+        font-size: 80px;
+    }
+}
+
 .winner > button {
+    font-size: 18px;
     font-style: italic;
     font-family: cursive;
 }
@@ -88,8 +95,8 @@ body {
 
 .spot {
     border: 1px solid black;
-    height: 50px;
-    width: 50px;
+    height: 45px;
+    width: 45px;
     margin-bottom: 4px;
 }
 
@@ -97,29 +104,29 @@ body {
     background: white;
 }
 
-.player1, .player1.column:hover > .drop, .player1.column:active > .drop {
+.player1, .player1.column:hover > .drop, .player1.column:focus > .drop {
     background: #00ffb6;
 }
 
-.player2, .player2.column:hover > .drop, .player2.column:active > .drop {
+.player2, .player2.column:hover > .drop, .player2.column:focus > .drop {
     background: #ff0700;
 }
 
-.player3, .player3.column:hover > .drop, .player3.column:active > .drop  {
+.player3, .player3.column:hover > .drop, .player3.column:focus > .drop  {
     background: #FCB316;
 }
 
-.player4, .player4.column:hover > .drop, .player4.column:active > .drop  {
+.player4, .player4.column:hover > .drop, .player4.column:focus > .drop  {
     background: #ff6095;
 }
 
-.player5, .player5.column:hover > .drop, .player5.column:active > .drop  {
+.player5, .player5.column:hover > .drop, .player5.column:focus > .drop  {
     background: #6500e0;
 }
 
 .drop {
-    height: 50px;
-    width: 50px;
+    height: 45px;
+    width: 45px;
     margin: 0 auto;
     border-radius: 50%;
     background: black;
@@ -141,6 +148,6 @@ body {
 
 .column {
     background: black;
-    width: 54px;
+    width: 49px;
     padding: 2px;
 }
