@@ -10,7 +10,7 @@ let StartForm = ({ started, boardKinds, winKinds, players, onAddPlayer, onRemove
                 <Players 
                     players={ players }
                     onAddPlayer={ () => onAddPlayer() }
-                    onRemovePlayer={ index => onRemovePlayer(index) }
+                    onRemovePlayer={ () => onRemovePlayer() }
                 />
                 <BoardKinds 
                     boardKinds={ boardKinds }

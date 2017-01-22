@@ -12,22 +12,27 @@ const initialBoard = (rows, cols) => {
     return board;
 };
 
-const initialState = (cols=7, rows=9, numPlayers=2, spotsToWin=4) => {
-    let players = [];
-
-    for (let i=1; i<=numPlayers; i++) {
-        players.push(i);
-    }
-
+const initialState = () => {
     return {
         started: false,
+        boardKinds: [
+            { 
+                dimensions: [7,9],
+                selected: true
+            },
+            {
+                dimensions: [12,10],
+                selected: false
+            }
+        ],
+        winKinds: [3, 4, 5, 6],
+        players: [1, 2],
+        cols: 6,
+        rows: 6,
         board: null,
-        players: players,
-        cols: cols,
-        rows: rows,
-        spotsToWin: spotsToWin,
-        currentPlayer: 1,
-        winner: null
+        spotsToWin: null,
+        winner: null,
+        currentPlayer: 1
     };
 };
 
@@ -244,10 +249,14 @@ const game = (state, action) => {
             return initialState();
         case 'ADD_PLAYER':
             console.log('adding player');
-            return state;
+            return Object.assign({}, state, {
+                players: [...state.players, state.players.length + 1]
+            });
         case 'REMOVE_PLAYER':
             console.log("fool remove player!");
-            return state;
+            return Object.assign({}, state, {
+                players: state.players.slice(0, state.players.length - 1)
+            });
         case 'SELECT_BOARD_KIND':
             console.log("fool board kind!");
             return state;
@@ -255,7 +264,7 @@ const game = (state, action) => {
             console.log("fool win kind!");
             return state;
         case 'START_GAME':
-            return startGame(Object.assign({}, state));
+            return startGame(state);
         case 'PLAY_TURN':
             console.log('PLAY_TURN', action);
 
