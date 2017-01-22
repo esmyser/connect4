@@ -3,7 +3,7 @@ import Board from './Board';
 import Winner from './Winner';
 import StartForm from './StartForm';
 import { connect } from 'react-redux';
-import { playTurn, startGame, addPlayer, removePlayer, selectBoardKind, selectWinKind } from '../actions/index';
+import { startApp, startGame, playTurn, addPlayer, removePlayer, selectBoardKind, selectWinKind } from '../actions/index';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import '../../public/style.css';
@@ -34,7 +34,7 @@ let App = ({ dispatch, game }) => (
         <Winner
             player={ game.winner }
             onRestart={ () => dispatch(
-                startGame()
+                startApp()
             )}
         />
         <Board 

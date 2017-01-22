@@ -37,11 +37,7 @@ const initialState = () => {
             { 
                 spotsToWin: 5,
                 selected: false
-            },
-            { 
-                spotsToWin: 6,
-                selected: false
-            },
+            }
         ],
         players: [1, 2],
         spotsToWin: 4,
@@ -281,6 +277,7 @@ const game = (state, action) => {
             winKinds.forEach(function(winKind){
                 winKind.selected = false;
             });
+
             winKinds[index].selected = true;
 
             return Object.assign({}, state, {
