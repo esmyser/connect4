@@ -18,7 +18,7 @@ let StartForm = ({ started, boardKinds, winKinds, players, onAddPlayer, onRemove
                 />
                 <WinKinds 
                     winKinds={ winKinds }
-                    onSelectWinKind={ onSelectWinKind }
+                    onSelectWinKind={ index => onSelectWinKind(index) }
                 />
                 <button
                     className="btn btn-default"

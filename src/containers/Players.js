@@ -2,13 +2,10 @@ import React from 'react';
 import Player from './Player';
 
 let Players = ({ players, onAddPlayer, onRemovePlayer }) => {
-    let addPlayerDisabled = players.length < 5 ? "" : "disabled";
-    let removePlayerDisabled = players.length > 2 ? "" : "disabled";
+    let addPlayerDisabled = players.length > 4;
+    let removePlayerDisabled = players.length < 3;
 
     return (
-        // players
-        // add player button
-        // remove player (hover / click a player?)
         <div>
             {
                 players.map((player, index) => 

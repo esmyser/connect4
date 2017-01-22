@@ -18,8 +18,8 @@ let App = ({ dispatch, game }) => (
             onAddPlayer={ () => dispatch(
                 addPlayer()
             )}
-            onRemovePlayer={ index => dispatch(
-                removePlayer(index)
+            onRemovePlayer={ () => dispatch(
+                removePlayer()
             )}
             onSelectBoardKind={ boardKind => dispatch(
                 selectBoardKind(boardKind)

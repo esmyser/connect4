@@ -25,12 +25,29 @@ const initialState = () => {
                 selected: false
             }
         ],
-        winKinds: [3, 4, 5, 6],
+        winKinds: [
+            { 
+                spotsToWin: 3,
+                selected: false
+            },
+            { 
+                spotsToWin: 4,
+                selected: true
+            },
+            { 
+                spotsToWin: 5,
+                selected: false
+            },
+            { 
+                spotsToWin: 6,
+                selected: false
+            },
+        ],
         players: [1, 2],
+        spotsToWin: 4,
         cols: 6,
         rows: 6,
         board: null,
-        spotsToWin: null,
         winner: null,
         currentPlayer: 1
     };
@@ -245,29 +262,35 @@ const nextPlayer = (players, player) => {
 const game = (state, action) => {
     switch (action.type) {
         case 'START_APP':
-            console.log("starting the app");
             return initialState();
         case 'ADD_PLAYER':
-            console.log('adding player');
             return Object.assign({}, state, {
                 players: [...state.players, state.players.length + 1]
             });
         case 'REMOVE_PLAYER':
-            console.log("fool remove player!");
             return Object.assign({}, state, {
                 players: state.players.slice(0, state.players.length - 1)
             });
         case 'SELECT_BOARD_KIND':
-            console.log("fool board kind!");
             return state;
         case 'SELECT_WIN_KIND':
-            console.log("fool win kind!");
-            return state;
+            let winKinds = [...state.winKinds];
+            let index = action.winKind;
+            let spotsToWin = winKinds[index].spotsToWin;
+
+            winKinds.forEach(function(winKind){
+                winKind.selected = false;
+            });
+            winKinds[index].selected = true;
+
+            return Object.assign({}, state, {
+                winKinds: winKinds,
+                spotsToWin: spotsToWin
+            });
         case 'START_GAME':
             return startGame(state);
         case 'PLAY_TURN':
             console.log('PLAY_TURN', action);
-
             let board = [ ...state.board ];
             let player = action.player;
             let col = action.col;
