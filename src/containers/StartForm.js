@@ -20,6 +20,12 @@ let StartForm = ({ started, boardKinds, winKinds, players, onAddPlayer, onRemove
                     winKinds={ winKinds }
                     onSelectWinKind={ onSelectWinKind }
                 />
+                <button
+                    className="btn btn-default"
+                    onClick={ onStartGame }
+                >
+                    START
+                </button>
             </div>
         );
     }
@@ -28,11 +34,3 @@ let StartForm = ({ started, boardKinds, winKinds, players, onAddPlayer, onRemove
 };
 
 export default StartForm;
-
-
-                // <button>
-                // //     className="btn btn-default"
-                // //     onClick={ onStartGame }
-                // // >
-                // //     START
-                // </button>

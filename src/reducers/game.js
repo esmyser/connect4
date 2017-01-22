@@ -21,7 +21,7 @@ const initialState = (cols=7, rows=9, numPlayers=2, spotsToWin=4) => {
 
     return {
         started: false,
-        board: initialBoard(rows, cols),
+        board: null,
         players: players,
         cols: cols,
         rows: rows,
@@ -29,6 +29,13 @@ const initialState = (cols=7, rows=9, numPlayers=2, spotsToWin=4) => {
         currentPlayer: 1,
         winner: null
     };
+};
+
+const startGame = (state) => {
+    return Object.assign({}, state, { 
+        board: initialBoard(state.rows, state.cols),
+        started: true
+    });
 };
 
 const nextOpenRow = (rows) => {   
@@ -232,8 +239,23 @@ const nextPlayer = (players, player) => {
 
 const game = (state, action) => {
     switch (action.type) {
-        case 'START_GAME':
+        case 'START_APP':
+            console.log("starting the app");
             return initialState();
+        case 'ADD_PLAYER':
+            console.log('adding player');
+            return state;
+        case 'REMOVE_PLAYER':
+            console.log("fool remove player!");
+            return state;
+        case 'SELECT_BOARD_KIND':
+            console.log("fool board kind!");
+            return state;
+        case 'SELECT_WIN_KIND':
+            console.log("fool win kind!");
+            return state;
+        case 'START_GAME':
+            return startGame(Object.assign({}, state));
         case 'PLAY_TURN':
             console.log('PLAY_TURN', action);
 
