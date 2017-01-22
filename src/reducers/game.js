@@ -20,6 +20,7 @@ const initialState = (cols=7, rows=9, numPlayers=2, spotsToWin=4) => {
     }
 
     return {
+        started: false,
         board: initialBoard(rows, cols),
         players: players,
         cols: cols,
