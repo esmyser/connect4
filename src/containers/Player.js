@@ -1,12 +1,15 @@
 import React from 'react';
 
-let Player = ({ player, onRemovePlayer }) => (
-    <div
-        className="player"
-        onClick={ onRemovePlayer }
-    >
+let Player = ({ player }) => {
+    let className = 'drop btn-round choose-player player' + player;
+    return (
+        <button 
+            className={ className } 
+            disabled='true'
+        >
         { player }
-    </div>
-);
+        </button>
+    );
+};
 
 export default Player;

@@ -6,7 +6,24 @@ let Players = ({ players, onAddPlayer, onRemovePlayer }) => {
     let removePlayerDisabled = players.length < 3;
 
     return (
-        <div>
+        <div className='col-xs-12 start-form-section'>
+            <div>Players:</div>
+            <div>
+                <button
+                    className='drop add-remove-player btn-round'
+                    onClick={ onRemovePlayer }
+                    disabled={ removePlayerDisabled }
+                >
+                -
+                </button>
+                <button
+                    className='drop add-remove-player btn-round'
+                    onClick={ onAddPlayer }
+                    disabled={ addPlayerDisabled }
+                >
+                +
+                </button>
+            </div>
             {
                 players.map((player, index) => 
                     <Player 
@@ -15,18 +32,6 @@ let Players = ({ players, onAddPlayer, onRemovePlayer }) => {
                     />
                 )
             }
-            <button
-                onClick={ onAddPlayer }
-                disabled={ addPlayerDisabled }
-            >
-            Add Player
-            </button>
-            <button
-                onClick={ onRemovePlayer }
-                disabled={ removePlayerDisabled }
-            >
-            Remove Player
-            </button>
         </div>
     );
 };
