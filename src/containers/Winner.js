@@ -4,9 +4,9 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 
 
 let Winner = ({ player, onRestart }) => {
-    let className = 'winner player' + { player }.player;
-
     if (player) {
+        let className = 'winner player' + player.number;
+
         return  (
             <div 
                 className={ className }
@@ -14,7 +14,7 @@ let Winner = ({ player, onRestart }) => {
                 <div
                     className="winner_header"
                 >
-                    PLAYER { player } WINS!
+                    PLAYER { player.number } WINS!
                 </div>
                 <button
                     className='btn btn-default'

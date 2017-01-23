@@ -55,7 +55,16 @@ const initialState = () => {
                 selected: false
             }
         ],
-        players: [1, 2],
+        players: [
+            {
+                number: 1,
+                moves: 0
+            },
+            {
+                number: 2,
+                moves: 0
+            } 
+        ],
         spotsToWin: 4,
         cols: 6,
         rows: 9,
@@ -280,7 +289,7 @@ const game = (state, action) => {
 
         case 'ADD_PLAYER':
             return Object.assign({}, state, {
-                players: [...state.players, state.players.length + 1]
+                players: [ ...state.players, { number: state.players.length + 1, moves: 0} ]
             });
 
         case 'REMOVE_PLAYER':
@@ -343,7 +352,7 @@ const game = (state, action) => {
 
             // check win
             if (won(newState)) {
-                return Object.assign({}, state, { board: board, winner: player });
+                return Object.assign({}, state, { board: board, winner: state.players[player - 1] });
             }
 
             // toggle player

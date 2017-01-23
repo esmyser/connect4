@@ -1,13 +1,13 @@
 import React from 'react';
 
 let Player = ({ player }) => {
-    let className = 'drop btn-round choose-player player' + player;
+    let className = 'drop btn-round choose-player player' + player.number;
     return (
         <button 
             className={ className } 
             disabled='true'
         >
-        { player }
+        { player.number }
         </button>
     );
 };
