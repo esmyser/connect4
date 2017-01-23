@@ -5,7 +5,7 @@ import WinKinds from './WinKinds';
 
 let StartForm = ({ boardKinds, winKinds, players, onAddPlayer, onRemovePlayer, onSelectBoardKind, onSelectWinKind, onStartGame }) => (
     <div className='start-form centered'>
-        <h1>CONNECT</h1>
+        <h1 className='italic'>CONNECT</h1>
         <Players 
             players={ players }
             onAddPlayer={ () => onAddPlayer() }
@@ -20,10 +20,10 @@ let StartForm = ({ boardKinds, winKinds, players, onAddPlayer, onRemovePlayer, o
             onSelectWinKind={ index => onSelectWinKind(index) }
         />
         <button
-            className="btn btn-default start-button"
+            className="btn btn-default italic"
             onClick={ onStartGame }
         >
-            start
+            Start
         </button>
     </div>
 );

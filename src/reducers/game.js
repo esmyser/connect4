@@ -17,27 +17,27 @@ const initialState = () => {
         started: false,
         boardKinds: [
             { 
-                dimensions: [6,6],
+                dimensions: [5,9],
                 selected: false
             },
             {
-                dimensions: [7,9],
+                dimensions: [6,9],
                 selected: true
             },
             {
-                dimensions: [8,11],
+                dimensions: [7,9],
                 selected: false
             },
             {
-                dimensions: [9,12],
+                dimensions: [10,12],
                 selected: false
             },
             {
-                dimensions: [11,9],
+                dimensions: [11,12],
                 selected: false
             },
             {
-                dimensions: [12,15],
+                dimensions: [12,12],
                 selected: false
             }
         ],
@@ -57,7 +57,7 @@ const initialState = () => {
         ],
         players: [1, 2],
         spotsToWin: 4,
-        cols: 7,
+        cols: 6,
         rows: 9,
         board: null,
         winner: null,
