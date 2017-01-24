@@ -155,9 +155,13 @@ body {
     border: 1px solid #00b8ff;
 }
 */
+.add-remove-player {
+    background: rgba(128, 128, 128, .46);
+}
+
 .add-remove-player:disabled {
     border: 1px solid white;
-    background: rgba(128, 128, 128, .46);
+    background: black;
 }
 
 .board-kind {
