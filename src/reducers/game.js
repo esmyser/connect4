@@ -58,11 +58,11 @@ const initialState = () => {
         players: [
             {
                 number: 1,
-                moves: 0
+                turns: 0
             },
             {
                 number: 2,
-                moves: 0
+                turns: 0
             } 
         ],
         spotsToWin: 4,
@@ -336,7 +336,8 @@ const game = (state, action) => {
         case 'PLAY_TURN':
             console.log('PLAY_TURN', action);
             let board = [ ...state.board ];
-            let player = action.player;
+            let players = [ ...state.players ];
+            let player = players[action.player - 1];
             let col = action.col;
             let row = nextOpenRow(board[col]);
 
@@ -346,19 +347,21 @@ const game = (state, action) => {
             }
 
             // take spot
-            board[col][row] = player;
+            board[col][row] = player.number;
 
-            let newState = Object.assign({}, state, { board: board });
+            // increment turns
+            player.turns += 1;
+            players[action.player - 1] = player;
 
             // check win
-            if (won(newState)) {
-                return Object.assign({}, state, { board: board, winner: state.players[player - 1] });
+            if (won(state)) {
+                return Object.assign({}, state, { board: board, players: players, winner: state.players[player.number - 1] });
             }
 
             // toggle player
-            player = nextPlayer(state.players, player);
+            player = nextPlayer(state.players, player.number);
 
-            return Object.assign({}, state, { board: board, currentPlayer: player });
+            return Object.assign({}, state, { board: board, players: players, currentPlayer: player });
 
         default:
             return state;

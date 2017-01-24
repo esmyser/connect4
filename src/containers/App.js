@@ -39,6 +39,7 @@ let App = ({ dispatch, game }) => {
     return (
         <div>
             <Winner
+                spotsToWin={ game.spotsToWin }
                 player={ game.winner }
                 onRestart={ () => dispatch(
                     startApp()
