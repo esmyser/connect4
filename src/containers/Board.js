@@ -2,7 +2,8 @@ import React from 'react';
 import Column from './Column';
 
 let Board = ({ cols, board, player, onColClick }) => {
-    let className = "board board_" + (cols) 
+    let className = "board board_" + (cols);
+
     return (
         <div className={ className }>
         {
@@ -16,6 +17,7 @@ let Board = ({ cols, board, player, onColClick }) => {
                 />
             )
         }
+            <br />
         </div>
     );
 }

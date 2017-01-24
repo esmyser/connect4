@@ -1,7 +1,7 @@
 import React from 'react';
 
-let Spot = ({ dispatch, player }) => {
-    let className = "col-xs-12 spot player" + { player }.player;
+let Spot = ({ player }) => {
+    let className = "col-xs-12 spot player" + player;
     return (
         <div className={ className } />
     );

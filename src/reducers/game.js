@@ -1,4 +1,4 @@
-const initialBoard = (rows, cols) => {
+const initialBoard = (cols, rows) => {
     let board = [];
 
     for (let col=0; col<cols; col++) {
@@ -12,22 +12,73 @@ const initialBoard = (rows, cols) => {
     return board;
 };
 
-const initialState = (cols=7, rows=9, numPlayers=2, spotsToWin=4) => {
-    let players = [];
-
-    for (let i=1; i<=numPlayers; i++) {
-        players.push(i);
-    }
-
+const initialState = () => {
     return {
-        board: initialBoard(rows, cols),
-        players: players,
-        cols: cols,
-        rows: rows,
-        spotsToWin: spotsToWin,
-        currentPlayer: 1,
-        winner: null
+        started: false,
+        boardKinds: [
+            { 
+                dimensions: [5,9],
+                selected: false
+            },
+            {
+                dimensions: [6,9],
+                selected: true
+            },
+            {
+                dimensions: [7,9],
+                selected: false
+            },
+            {
+                dimensions: [10,12],
+                selected: false
+            },
+            {
+                dimensions: [11,12],
+                selected: false
+            },
+            {
+                dimensions: [12,12],
+                selected: false
+            }
+        ],
+        winKinds: [
+            { 
+                spotsToWin: 3,
+                selected: false
+            },
+            { 
+                spotsToWin: 4,
+                selected: true
+            },
+            { 
+                spotsToWin: 5,
+                selected: false
+            }
+        ],
+        players: [
+            {
+                number: 1,
+                moves: 0
+            },
+            {
+                number: 2,
+                moves: 0
+            } 
+        ],
+        spotsToWin: 4,
+        cols: 6,
+        rows: 9,
+        board: null,
+        winner: null,
+        currentPlayer: 1
     };
+};
+
+const startGame = (state) => {
+    return Object.assign({}, state, { 
+        board: initialBoard(state.cols, state.rows),
+        started: true
+    });
 };
 
 const nextOpenRow = (rows) => {   
@@ -230,12 +281,60 @@ const nextPlayer = (players, player) => {
 };
 
 const game = (state, action) => {
+    let index;
+
     switch (action.type) {
-        case 'START_GAME':
+        case 'START_APP':
             return initialState();
+
+        case 'ADD_PLAYER':
+            return Object.assign({}, state, {
+                players: [ ...state.players, { number: state.players.length + 1, moves: 0} ]
+            });
+
+        case 'REMOVE_PLAYER':
+            return Object.assign({}, state, {
+                players: state.players.slice(0, state.players.length - 1)
+            });
+
+        case 'SELECT_BOARD_KIND':
+            let boardKinds = [...state.boardKinds];
+            index = action.boardKind;
+            let dimensions = boardKinds[index].dimensions;
+
+            boardKinds.forEach(function(boardKind){
+                boardKind.selected = false;
+            });
+
+            boardKinds[index].selected = true;
+
+            return Object.assign({}, state, {
+                boardKinds: boardKinds,
+                cols: dimensions[0],
+                rows: dimensions[1]
+            });        
+
+        case 'SELECT_WIN_KIND':
+            let winKinds = [...state.winKinds];
+            index = action.winKind;
+            let spotsToWin = winKinds[index].spotsToWin;
+
+            winKinds.forEach(function(winKind){
+                winKind.selected = false;
+            });
+
+            winKinds[index].selected = true;
+
+            return Object.assign({}, state, {
+                winKinds: winKinds,
+                spotsToWin: spotsToWin
+            });
+
+        case 'START_GAME':
+            return startGame(state);
+
         case 'PLAY_TURN':
             console.log('PLAY_TURN', action);
-
             let board = [ ...state.board ];
             let player = action.player;
             let col = action.col;
@@ -253,13 +352,14 @@ const game = (state, action) => {
 
             // check win
             if (won(newState)) {
-                return Object.assign({}, state, { board: board, winner: player });
+                return Object.assign({}, state, { board: board, winner: state.players[player - 1] });
             }
 
             // toggle player
             player = nextPlayer(state.players, player);
 
             return Object.assign({}, state, { board: board, currentPlayer: player });
+
         default:
             return state;
     }

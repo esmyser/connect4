@@ -46,29 +46,4 @@ class Column extends React.Component {
     }
 }
 
-// let Column = (props) => {
-//     let colClass = "player" + props.player + " col-xs-" + parseInt(12 / props.cols) + " column";
-//     let dropClass = "col-xs-12 drop";
-
-    // return (
-    //     <div 
-    //         className={ colClass }
-    //         onClick={ props.onClick }
-    //     >
-    //         <div 
-    //             className={ dropClass }
-    //         >
-    //         </div>
-    //         {
-    //             props.rows.map((player, index) => 
-    //                 <Spot 
-    //                     key={ index } 
-    //                     player={ player }
-    //                 />
-    //             )
-    //         }
-    //     </div>
-    // );
-// }
-
 export default Column;
